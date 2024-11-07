@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Vulnerability Demo</title>
+    <script>
+        function toggleXSSVulnerability() {
+            const enabled = document.getElementById('xssVulnerability').checked;
+            fetch(`/api/toggle?name=xss&enabled=${enabled}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => alert(data.message))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function performXSS() {
+            const inputText = document.getElementById('xssInput').value;
+            const iframe = document.createElement('iframe');
+            iframe.src = `/api/xss?input=${encodeURIComponent(inputText)}`;
+            iframe.width = "100%";
+            iframe.height = "200";
+            document.getElementById('xssResult').innerHTML = '';
+            document.getElementById('xssResult').appendChild(iframe);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/api/getAccessControlStatus', { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('accessControlVulnerability').checked = data.enabled;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        function toggleAccessControlVulnerability() {
+            const enabled = document.getElementById('accessControlVulnerability').checked;
+            fetch(`/api/toggle?name=accessControl&enabled=${enabled}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    console.log('Access Control Enabled:', enabled);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function goToCardPage() {
+            const userId = document.getElementById('userIdInput').value;
+            if (userId && !isNaN(userId)) {
+                // Save userId to a cookie
+                document.cookie = `userId=${userId}; path=/`;
+                window.location.href = `/card/${userId}`;
+            } else {
+                alert('Please enter a valid User ID');
+            }
+        }
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+    </script>
+</head>
+<body>
+<h1>XSS Vulnerability Demo</h1>
+
+<h2>Toggle XSS Vulnerability</h2>
+<label>
+    <input type="checkbox" id="xssVulnerability" onchange="toggleXSSVulnerability()"> Enable Reflected XSS
+</label><br>
+
+<h2>Reflected XSS Demo</h2>
+<input type="text" id="xssInput" placeholder="Enter text for XSS">
+<button onclick="performXSS()">Submit</button>
+<div id="xssResult"></div>
+</body>
+<body>
+<h1>Vulnerability Control Panel</h1>
+
+<h2>Toggle Access Control Vulnerability</h2>
+<label>
+    <input type="checkbox" id="accessControlVulnerability" onchange="toggleAccessControlVulnerability()">
+    Enable Improper Access Control
+</label><br>
+
+<h2>Access Card Information</h2>
+<input type="number" id="userIdInput" placeholder="Enter your user ID">
+<button onclick="goToCardPage()">Submit</button>
+</body>
+</html>
