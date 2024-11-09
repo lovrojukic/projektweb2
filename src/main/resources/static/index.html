@@ -46,7 +46,7 @@
         function goToCardPage() {
             const userId = document.getElementById('userIdInput').value;
             if (userId && !isNaN(userId)) {
-                // Save userId to a cookie
+
                 document.cookie = `userId=${userId}; path=/`;
                 window.location.href = `/card/${userId}`;
             } else {
@@ -62,28 +62,40 @@
     </script>
 </head>
 <body>
-<h1>XSS Vulnerability Demo</h1>
+<h1>XSS napad </h1>
 
-<h2>Toggle XSS Vulnerability</h2>
+<h2>Prekidač XSS ranjivosti</h2>
+<h3>Upute: ovdje možete uključiti odnosno isključiti ranjivost</h3>
 <label>
-    <input type="checkbox" id="xssVulnerability" onchange="toggleXSSVulnerability()"> Enable Reflected XSS
+    <input type="checkbox" id="xssVulnerability" onchange="toggleXSSVulnerability()"> Ukljuciti ranjivost
 </label><br>
 
-<h2>Reflected XSS Demo</h2>
+<h2>XSS Forma</h2>
+<h3>Upute: U ovu formu možete napisati ovaj primjer(ako je ranjivost iskljucena ispisati će se sanitizirani tekst,
+u suprotnome bit će izvršen XSS napad i pojaviti će se alert u prozoru.</h3>
+<h4>&lt;script&gt;alert('XSS test')&lt;/script&gt;</h4>
+
 <input type="text" id="xssInput" placeholder="Enter text for XSS">
 <button onclick="performXSS()">Submit</button>
 <div id="xssResult"></div>
 </body>
 <body>
-<h1>Vulnerability Control Panel</h1>
+<h1>Loša kontrola pristupa</h1>
 
-<h2>Toggle Access Control Vulnerability</h2>
+<h2>Prekidač ranjivosti</h2>
 <label>
     <input type="checkbox" id="accessControlVulnerability" onchange="toggleAccessControlVulnerability()">
-    Enable Improper Access Control
+    Uključiiti ranjivost
 </label><br>
 
-<h2>Access Card Information</h2>
+<h2>Loša kontrola pristupa</h2>
+<h3>Upute: Napravio sam malu bazu podataka na backendu od tri korisnika Lovro, Marko i Luka(svaki od njih ima svoj pin od 4 znamenke i broj kartice.</h3>
+<h3>PIN, IME: BROJ KARTICE</h3>
+<h3>6065, "Lovro: 1234-5678-9012-3456";
+    6066, "Marko: 2345-6789-0123-4567";
+    6067, "Luka: 3456-7890-1234-5678"</h3>
+<h3>U formi treba upisati jedan pin korisnika koji će prebaciti korisnika na stranicu s informacijama o njegovoj kartici. I kada napadač pokuša gore promjeniti URL u pin druge osobe
+pristup će mu biti onemogućen, no ako je ranjivost uključena napadač će moći vidjeti podatke drugih korisnika tako da URL promjeni svoj pin sa tuđim</h3>
 <input type="number" id="userIdInput" placeholder="Enter your user ID">
 <button onclick="goToCardPage()">Submit</button>
 </body>

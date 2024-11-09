@@ -17,11 +17,11 @@ public class CardController {
     @Autowired
     private VulnerabillityController vulnerabillityController;
 
-    // Mock database for card information
+
     private Map<Integer, String> cardDatabase = new HashMap<>();
 
     public CardController() {
-        // Mock card data: card number and owner name
+        //Ovo je napravljena mala baza podataka za korisnike s PIN, IME, BROJ KARTICE
         cardDatabase.put(6065, "Lovro: 1234-5678-9012-3456");
         cardDatabase.put(6066, "Marko: 2345-6789-0123-4567");
         cardDatabase.put(6067, "Luka: 3456-7890-1234-5678");
@@ -29,7 +29,6 @@ public class CardController {
 
     @GetMapping("/card/{userId}")
     public String getCardPage(@PathVariable Integer userId, Model model, HttpServletRequest request) {
-        // Get userId from cookie
         Integer cookieUserId = null;
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
@@ -39,13 +38,13 @@ public class CardController {
             }
         }
 
-        // Check if access control vulnerability is enabled
+
         System.out.println("Access Control Enabled: " + vulnerabillityController.isAccessControlEnabled());
         if (vulnerabillityController.isAccessControlEnabled()) {
-            // No access control - improper access allowed
+
             model.addAttribute("cardInfo", cardDatabase.getOrDefault(userId, "Account not found"));
         } else {
-            // Proper access control - verify if cookie userId matches requested userId
+
             if (cookieUserId != null && cookieUserId.equals(userId)) {
                 model.addAttribute("cardInfo", cardDatabase.get(userId));
             } else {

@@ -16,22 +16,22 @@ public class XSSController {
 
     @GetMapping("/api/xss")
     public void handleXSS(@RequestParam String input, HttpServletResponse response) throws IOException {
-        response.setContentType("text/plain");  // Set the content type to HTML
+        response.setContentType("text/plain");
 
         if (vulnerabillityController.isXssEnabled()) {
             response.setContentType("text/html");
-            // Reflect the input directly to demonstrate the vulnerability
+
             response.getWriter().write("<div>" + input + "</div>");
         } else {
             response.setContentType("text/plain");
-            // Manually sanitize input to prevent XSS
+
             String safeInput = sanitizeInput(input);
-            // Use <pre> or <code> tags to preserve the literal format of the sanitized input
+            //OVDJE SANITIZIRAMO ULAZ OD KORISNIKA
             response.getWriter().write("<div>" + safeInput + "</div>");
         }
     }
 
-    // Method to manually sanitize user input
+    //METODA SANITIZIRANJA idemo kroz svaki znak i ove kritične znakove zamijenjujemo i prevodimo u druge
     private String sanitizeInput(String input) {
         if (input == null) {
             return null;

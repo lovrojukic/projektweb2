@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Information - [[${userId}]]</title>
     <script>
-        // Function to initialize the vulnerability checkbox state
+
         document.addEventListener('DOMContentLoaded', function () {
             fetch('/api/getAccessControlStatus', { method: 'GET' })
                 .then(response => response.json())
@@ -31,17 +31,17 @@
     </script>
 </head>
 <body>
-<h1>Card Information - Account [[${userId}]]</h1>
+<h1>Informacija kartice - Account [[${userId}]]</h1>
 
-<h2>Card Details</h2>
+<h2>Kartica ID</h2>
 <div id="cardDetails">
     [[${cardInfo}]]
 </div>
-
-<h2>Toggle Access Control Vulnerability</h2>
-<label>
-    <input type="checkbox" id="accessControlVulnerability" onchange="toggleAccessControlVulnerability()">
-    Enable Improper Access Control
-</label><br>
+<h3>Ponovno upute na primjer ako smo upisali pin 6065 ../card/6065 ćemo biti prebaćeni na ovu stranicu i ako smo prije uključili ranjivost treba promjeniti 6065 u npr. 6066 ili 6067
+i učitati će se nova stranica sa svim informacijama tuđih kartica.</h3>
+<h3>Ovdje je samo prikaz svih korisnika za provjeru</h3>
+<h3>6065, "Lovro: 1234-5678-9012-3456";
+    6066, "Marko: 2345-6789-0123-4567";
+    6067, "Luka: 3456-7890-1234-5678"</h3>
 </body>
 </html>
